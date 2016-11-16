@@ -186,8 +186,10 @@ We would like to express our sincere gratitude to our advisor Prof. Hemant Kumar
 \tableofcontents
 
 \listoffigures
+\addcontentsline{toc}{chapter}{List of Figures}
 
 \newpage
+\addcontentsline{toc}{chapter}{List of Abbreviations}
 \chapter*{List of Abbreviations}
 \printacronyms[include-classes=abbrev, heading=none]
 
@@ -279,16 +281,10 @@ In case of the communication with the central server, the model followed is agai
 \chapter{Specification}\label{chapter:Specification}
 \onehalfspacing
 
-
-%\newpage
-%\bibliographystyle{these}
+\newpage
+\nocite*{}
 \bibliographystyle{acm}
-%\bibliographystyle{elsart-harv}
-%\newpage
-%\section{References}
-%\bibliography{Library}
-\bibliography{sample}
-
-%\chapter*{Appendix}\label{chapter:appendix} 
+\addcontentsline{toc}{chapter}{Bibliography}
+\bibliography{bibdb}
 
 \end{document}
