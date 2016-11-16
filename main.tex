@@ -64,8 +64,7 @@ This is to certify that the above statement made by the candidate is correct to 
 
 \begin{abstract}
 
-The building management HVAC(heating, ventilation and air conditioning) system for Phase II is designed to take care (and advantage) of diversity of use. Instead of using large AHUs(Air Handling Units), we will have individual units in faculty rooms, labs, and other spaces. This would allow us to condition air of the spaces that are occupied and the system would be able to maintain desired temperature more closely. The disadvantage of this approach is higher capital cost and a larger I/O points for BMS but the running cost will be saved. In this project we are developing a scheduler hosted on a web server to control the AC’s valves connected through RaspberryPi and Arduino.
-
+The building management HVAC(heating, ventilation and air conditioning) system for Phase II is designed to take care (and advantage) of diversity of use. Instead of using large AHUs(Air Handling Units), we will have individual units in faculty rooms, labs, and other spaces. This would allow us to condition air of the spaces that are occupied and the system would be able to maintain desired temperature more closely. The disadvantage of this approach is higher capital cost and a larger I/O points for BMS but the running cost will be saved. In this project we are developing a scheduler hosted on a web server to control the AC’s valves connected through RaspberryPi and Arduino. 
 \vspace{2.15in}
 Keywords: building management system, scheduler, web server 
 \end{abstract}
@@ -74,8 +73,11 @@ Keywords: building management system, scheduler, web server
 \section*{Acknowledgments}\label{section:acknowledgments}
 \pagestyle{plain}
 \pagenumbering{roman}
+We take this opportunity to express our deepest gratitude and appreciation to all those
+who have helped us directly or indirectly towards the successful completion of this project.
+\par
+We would like to express our sincere gratitude to our advisor Prof. Hemant Kumar for providing his invaluable guidance, comments and suggestions throughout the course of the project.
 
-I would like to express my sincere gratitude to my supervisor Prof. Hemant Kumar for providing his invaluable guidance, comments and suggestions throughout the course of the project. 
 
 \vspace{2in}
 %\section*{Work Distribution}
@@ -84,6 +86,8 @@ I would like to express my sincere gratitude to my supervisor Prof. Hemant Kumar
 \newpage
 
 \tableofcontents
+
+\listoffigures
 
 \chapter{Introduction}\label{chapter:introduction}
 \pagenumbering{arabic}
@@ -98,6 +102,14 @@ Later a parallel system was implemented by a research group led by Dr Amarjeet S
 \pagebreak
 \section{BMS for phase II}
 The HVAC for Phase II is designed to take care (and advantage) of diversity of use. So instead of large AHUs, we will have individual units in faculty rooms, labs, and other spaces. This would allow us to condition air of the spaces that are occupied and the system would be able to maintain desired temperature more closely. The disadvantage of this approach is higher capital cost and a larger I/O points for BMS but the running cost will be saved.
+
+\newpage
+\chapter{Problem Statement}\label{chapter:problemstatement}
+\onehalfspacing
+\section*{}
+In Phase-I, a single AHU is used for handling one floor. The room closest to the AHU will see the least temperature variations in cooling/heating, the room will cool faster with maximum efficiency. The farther the room is situated from the AHU, the variation in temperature increases, the time for cooling/heating increases and the efficiency of cooling/heating decreases.
+\section*{}
+Since there are large AHU’s in use, the power consumption is more.
 
 \newpage
 \chapter{Architecture}\label{chapter:architecture}
@@ -130,16 +142,17 @@ The frontend of the central server consists of a hierarchy of web pages created 
 \subsection{Backend}
 The backend of the central server consists of a web application created using the Python web framework Django. The system used MySQL as the database management system.
 \section{Sub-server}
-The sub-servers are individual Raspberry Pi units running a Linux OS distribution. These devices are connected to the network using a wired Ethernet connection and each unit manages upto 20 AVR microcontroller units. The Raspberry Pi devices host a web server which provides various functionalities. Over the course of this project, the web server was ported from a \verb|BaseHTTPServer| to a Django-based server, both coded in Python.
+The sub-servers are individual Raspberry Pi units running a Linux OS distribution. These devices are connected to the central server using a wired Ethernet connection and each unit manages upto 20 AVR microcontroller units over a WiFi interface. The Raspberry Pi devices host a web server which provides various functionalities. Over the course of this project, the web server was ported from a \verb|BaseHTTPServer| to a Django-based server, both coded in Python.
 
 \newpage
 \chapter{Implementation}\label{chapter:Implementation}
 \onehalfspacing
 \section{Central server}
 \subsection{Description}
-The central server is a Django web application which uses a MySQL DBMS.\\ \\
+The central server is a Django web application which uses a MySQL DBMS. The frontend part of the web application is done using HTML/CSS and bootstrap. \\ \\
 {\huge{**** TODO ****}}
 \subsection{Functionality}
+
 {\huge{**** TODO ****}}
 \section{Sub-server}
 \subsection{Description}
@@ -152,7 +165,7 @@ All communication taking place between sub-server devices and the microcontrolle
     \item Fetching commands - The microcontroller devices also fetch commands from the sub-server units. For this purpose, the microcontroller makes an HTTP GET request to the sub-server. The sub-server extracts the microcontroller's MAC address from the request and queries its database for any pending commands to be sent to that device. If found, it returns the same in the HTTP response to the client, else an empty response is sent.
 \end{itemize}
 \subsubsection{For central server}
-In case of the communication with the central server, the model followed is again client-server model. However, both thee sub-server and central server can initiate message sending.
+In case of the communication with the central server, the model followed is again client-server model. However, both the sub-server and central server can initiate message sending.
 \begin{itemize}
     \item Receive commands - The sub-server device acts as a client for this method, used by the central server to transmit commands to the sub-server using HTTP messages.
     \item Send data
