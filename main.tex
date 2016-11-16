@@ -109,7 +109,7 @@ The HVAC for Phase II is designed to take care (and advantage) of diversity of u
 \caption{Block diagram of the building management system project}
 \label{fig:arch}
 \end{figure}
-The BMS (Building Management System)/ HVAC (Heating, Ventilation and Air-Conditioning) system, is structured in the manner described by figure \ref{fig:arch}. At the lowest level is the AHU (Air Handling Unit), which performs the actual cooling/heating functionality of the system. It is controlled by the microcontroller. The microcontroller monitors various system parameters and accordingly runs the AHU. It is in turn controlled by a sub-server unit, which is responsible for logging data and passing control instructions to the microcontroller unit according to policies set by the central server. The highlighted sections in figure \ref{fig:arch }are the modules that were worked upon over the course of this project. In addition, code documentation for the entire stack was also written.
+The BMS (Building Management System)/ HVAC (Heating, Ventilation and Air-Conditioning) system, is structured in the manner described by figure \ref{fig:arch}. At the lowest level is the AHU (Air Handling Unit), which performs the actual cooling/heating functionality of the system. It is controlled by the microcontroller. The microcontroller monitors various system parameters and accordingly runs the AHU. It is in turn controlled by a sub-server unit, which is responsible for logging data and passing control instructions to the microcontroller unit according to policies set by the central server. The highlighted sections in figure \ref{fig:arch} are the modules that were worked upon over the course of this project. In addition, code documentation for the entire stack was also written.
 
 \newpage
 \chapter{Design}\label{chapter:Design}
@@ -136,19 +136,31 @@ The sub-servers are individual Raspberry Pi units running a Linux OS distributio
 \chapter{Implementation}\label{chapter:Implementation}
 \onehalfspacing
 \section{Central server}
-\huge{**** TODO ****}
+\subsection{Description}
+The central server is a Django web application which uses a MySQL DBMS.\\ \\
+{\huge{**** TODO ****}}
+\subsection{Functionality}
+{\huge{**** TODO ****}}
 \section{Sub-server}
+\subsection{Description}
+The Raspberry Pi units serving as sub-servers run a Django based web application which serves a REST API. This is utilised by both the microcontrollers and the central server which communicate with the device using HTTP messages. In addition, the sub-server device also functions as a client in some cases. This is further explained in the next section.
+\subsection{Functionality}
+\subsubsection{For microcontroller}
+All communication taking place between sub-server devices and the microcontrollers follows the client-server model. However, the server (Rapberry Pi device) cannot initiate a message send to the client (microcontroller) without a prior request from the client. Due to memory and threading constraints at the microcontroller end, interrupts have not been used. Thus all communication is initiated by the client device. 
 \begin{itemize}
-    \item  Central server
+    \item Data logging - The sub-server device provides a REST API method for microcontroller devices to log data. The microcontroller devices makes an HTTP POST request to the Raspberry Pi sub-server, which processes the attached data and stores it in the database. This data is stored in a MySQL database using microcontroller MAC addresses and the HTTP message timestamp as keys. Thereafter, the sub-server sends a confirmation message back to the client.
+    \item Fetching commands - The microcontroller devices also fetch commands from the sub-server units. For this purpose, the microcontroller makes an HTTP GET request to the sub-server. The sub-server extracts the microcontroller's MAC address from the request and queries its database for any pending commands to be sent to that device. If found, it returns the same in the HTTP response to the client, else an empty response is sent.
+\end{itemize}
+\subsubsection{For central server}
+In case of the communication with the central server, the model followed is again client-server model. However, both thee sub-server and central server can initiate message sending.
+\begin{itemize}
+    \item Receive commands - The sub-server device acts as a client for this method, used by the central server to transmit commands to the sub-server using HTTP messages.
+    \item Send data
     \begin{itemize}
-        \item  
-    \end{itemize}
-    \item  Microcontroller
-    \begin{itemize}
-        \item  Second Level
+        \item With prior request - This method is followed if the central server requests data logs from the sub-server using an HTTP GET message as-and-when required.
+        \item With no prior request - The Raspberry Pi device uses an SD card to store data persistently. To ensure longevity of the system, it is essential to keep the number of read/write cycles on the card to a minimum. Thus data logs are stored in primary memory. While this solves the SD card issue, it creates another as main system memory is being taken up by static data. To resolve this issue, the Raspberry Pi device dumps the data logs to the central server using HTTP POST messages at a fixed time interval. This enables the deletion of the files at sub-server end, freeing up valuable memory resources.
     \end{itemize}
 \end{itemize}
-
 
 %\newpage
 %\bibliographystyle{these}
