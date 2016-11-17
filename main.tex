@@ -143,7 +143,7 @@
 \begin{center}
 \textbf{\Large Student's Declaration}\label{section:declaration}
 \end{center}
-We hereby declare that the work presented in the report entitled \textbf{\title{}} submitted by us for the partial fulfillment of the requirements for the degree of \emph{Bachelor of Technology} in \emph{Computer Science \& Engineering} and \emph{Bachelor of Technology} in \emph{Electronics and Communication \& Engineering} respectively at Indraprastha Institute of Information Technology, Delhi, is an authentic record of our work carried out under guidance of \textbf{Prof. Hemant Kumar}. Due acknowledgements have  been given in the report to all material used. This work has not been submitted anywhere else for the reward of any other degree.\\
+We hereby declare that the work presented in the report entitled \textbf{\title{}} submitted by us for the partial fulfillment of the requirements for the degree of \emph{Bachelor of Technology} in \emph{Computer Science \& Engineering} and \emph{Bachelor of Technology} in \emph{Electronics and Communication Engineering} respectively at Indraprastha Institute of Information Technology, Delhi, is an authentic record of our work carried out under guidance of \textbf{Prof. Hemant Kumar}. Due acknowledgements have  been given in the report to all material used. This work has not been submitted anywhere else for the reward of any other degree.\\
 \vspace{0.5in}
 
 \textbf{..............................}\hfill
@@ -164,7 +164,8 @@ This is to certify that the above statement made by the candidate is correct to 
 \pagebreak
 
 \begin{abstract}
-The building management HVAC(heating, ventilation and air conditioning) system for Phase II is designed to take care (and advantage) of diversity of use. Instead of using large AHUs(Air Handling Units), we will have individual units in faculty rooms, labs, and other spaces. This would allow us to condition air of the spaces that are occupied and the system would be able to maintain desired temperature more closely. The disadvantage of this approach is higher capital cost and a larger I/O points for BMS but the running cost will be saved. In this project we are developing a scheduler hosted on a web server to control the AC’s valves connected through Raspberry Pi and Arduino.
+The building management HVAC(heating, ventilation and air conditioning) system for Phase II of IIIT-Delhi campus is designed to take care (and advantage) of diversity of use. Instead of using large AHUs(Air Handling Units), we will have individual units in faculty rooms, labs, and other spaces. This would allow us to condition air of the spaces that are occupied and the system would be able to maintain desired temperature more closely. The disadvantage of this approach is higher capital cost and a larger I/O points for BMS but the running cost will be saved. In this project we are developing a scheduler hosted on a web server to control the AC’s valves connected through Raspberry Pi and Arduino.
+\par
 \vspace{2.15in}
 Keywords: building management system, scheduler, web server 
 \end{abstract}
@@ -214,14 +215,14 @@ The distribution of work done by the team members over the course of this projec
 \setcounter{page}{1}
 \onehalfspacing
 \section{BMS for phase I}
-\ac{hvac} for the Phase I buildings (Academic, Lecture halls and library building) used large floor mounted \ac{ahu}'s to condition large spaces except lecture halls which were served by \ac{csu}'s (ceiling suspended units). Library building has one \ac{ahu} per floor feeding all the labs and rooms. The academic building has 6 AHUs (three serving A wing and the other three wing B). Hostels have one \ac{fcu} per room. The large AHUs of the academic block control volume of cold air by reducing the fan speed using \ac{vfd} drives. As the area per \ac{ahu} is large and the need very diverse (labs with varying number of occupants and equipment vs faculty rooms), the \ac{hvac} system is not very energy efficient and uniform temperature can't be maintained. The \ac{hvac} system has a very basic centralized control that can set temperature to be achieved in each one of the \ac{ahu}s or \ac{csu}s. It also allows switching on/ off, monitoring parameters etc centrally. Other than \ac{ahu}s/\ac{csu}s it can display status and parameters of chillers, cooling towers and hot water generator.
+\ac{hvac} for the Phase I buildings (Academic, Lecture halls and library building) of IIIT-Delhi campus used large floor mounted \ac{ahu}'s to condition large spaces except lecture halls which were served by \ac{csu}'s (ceiling suspended units). Library building has one \ac{ahu} per floor feeding all the labs and rooms. The academic building has 6 AHUs (three serving A wing and the other three wing B). Hostels have one \ac{fcu} per room. The large AHUs of the academic block control volume of cold air by reducing the fan speed using \ac{vfd} drives. As the area per \ac{ahu} is large and the need very diverse (labs with varying number of occupants and equipment vs faculty rooms), the \ac{hvac} system is not very energy efficient and uniform temperature can't be maintained. The \ac{hvac} system has a very basic centralized control that can set temperature to be achieved in each one of the \ac{ahu}s or \ac{csu}s. It also allows switching on/ off, monitoring parameters etc centrally. Other than \ac{ahu}s/\ac{csu}s it can display status and parameters of chillers, cooling towers and hot water generator.
 \par
 In \ac{bms}/ \ac{hvac} terminology each point that is controlled or read is an \ac{io} point and an \ac{io} summary is prepared for any BMS installation to estimate the cost. The \ac{io} points are of 4 types - digital input, digital output, analog input and analog output. In phase I, we had chosen to only include \ac{io} that either needed to be controlled or the \ac{io} that were to be sensed and used for controlling to contain cost. The system was provided by Trane.
 \par
 Later a parallel system for monitoring and data collection was implemented by a research group led by Dr Amarjeet Singh. This group installed wireless temperature sensors (13) and Ethernet based power meters (500) all over the campus to optimize HVAC and energy use based on data collected.
 \pagebreak
 \section{\ac{bms} for phase II}
-The \ac{hvac} for Phase II is designed to take care (and advantage) of diversity of use. So instead of large \ac{ahu}s, we will have individual units in faculty rooms, labs, and other spaces. This would allow us to condition air of the spaces that are occupied and the system would be able to maintain desired temperature more closely. The disadvantage of this approach is higher capital cost and a larger \ac{io} points for \ac{bms} but the running cost will be saved.
+The \ac{hvac} for Phase II of IIIT-Delhi campus is designed to take care (and advantage) of diversity of use. So instead of large \ac{ahu}s, we will have individual units in faculty rooms, labs, and other spaces. This would allow us to condition air of the spaces that are occupied and the system would be able to maintain desired temperature more closely. The disadvantage of this approach is higher capital cost and a larger \ac{io} points for \ac{bms} but the running cost will be saved.
 
 \newpage
 \chapter{Problem Statement}\label{chapter:problemstatement}
@@ -341,10 +342,9 @@ In this page the user selects the MAC address of the sub-server unit and is redi
 \caption{Managing a sub-server}
 \label{fig:raspberrypi}
 \end{figure}
-This page displays the information of the sub-server. The user can set the global policy for all the microcontrollers connected to the sub-server. The global policy includes the temperature range and time range in which the AHU’s should operate. The user can also view the past records of the sub-server. Once the user clicks submit, the data is entered in MySQL database.
+This page displays the information of the sub-server. The user can set the global policy for all the microcontrollers connected to the sub-server. The global policy includes the temperature range and time range in which the AHU’s should operate. The user can also view the past records of the sub-server. Once the user clicks submit, the data is entered in MySQL database. If the user wants to manage individual microcontroller, the user can navigate through the Arduino section in the home page to reach the following page (figure \ref{fig:block}).
 
 \newpage
-If the user wants to manage individual microcontroller, the user can navigate through the Arduino section in the home page to reach the following page (figure \ref{fig:block}).
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{block}
 \centering
@@ -352,8 +352,7 @@ If the user wants to manage individual microcontroller, the user can navigate th
 \caption{Blocks in Phase II}
 \label{fig:block}
 \end{figure}
-\par
-The sub-servers in phase II are distributed in various blocks. In this page the user has to select the block for which the microcontroller needs to be managed. The user on selecting the block will be directed to the following page (figure \ref{fig:wing}).
+The sub-servers in phase II are distributed in various blocks. In this page the user has to select the block for which the microcontroller needs to be managed. On selecting the block, the user will be directed to the following page (figure \ref{fig:wing}).
 
 \newpage
 \begin{figure}[h]
