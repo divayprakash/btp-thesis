@@ -6,17 +6,13 @@
 \usepackage{setspace}
 \usepackage{fancyhdr}
 
-%\usepackage{noReferences}
 \usepackage[small]{caption}
 \usepackage{graphics}
 \usepackage{color}
 
 \usepackage{hyperref}
 
-%\usepackage{natbib}
-
 \usepackage[dvips]{graphicx}
- % define the title
 \graphicspath{ {images/} }
 
 \usepackage{acro}
@@ -184,8 +180,6 @@ who have helped us directly or indirectly towards the successful completion of t
 We would like to express our sincere gratitude to our advisor Prof. Hemant Kumar for providing his invaluable guidance, comments and suggestions throughout the course of the project.
 
 \vspace{2in}
-%\section*{Work Distribution}
-%% explain chapterwise when the reported work has been done.
 
 \newpage
 \tableofcontents
@@ -254,10 +248,10 @@ The backend of the central server consists of a web application created using th
 \subsection{Design choices}
 There are various design choices that had to be made in order to create a cohesive and well-structured central server for the \ac{bms} project. The central server is implemented as a web application. The choice of a web-application was made keeping in mind the advantages of web applications over traditional desktop applications -
 \begin{itemize}
-    \item Easier deployment - The application does not need to be individuall deployed to any client machine. The client machine only requires a functioning web browser to access the system.
+    \item Easier deployment - The application does not need to be individual deployed to any client machine. The client machine only requires a functioning web browser to access the system.
     \item Maintenance - System maintenance is vastly easier as all updates and bug fixes need to be introduced at the server end only. In the same manner, regular updates are also easy.
     \item Platform independent - This was the major reason in favour of using a web application. The server implemented as a web application provides complete functionality to clients running any \ac{os}.
-    \item Faster development process - By using a web apllication, users access the system by way of a web browser. This creates a uniform environment across platforms. While user interaction with the application needs to be thoroughly tested on different web browsers, the application itself needs only be developed for a single operating system. There’s no need to develop and test it on all possible operating system versions and configurations. This makes development and troubleshooting much easier.
+    \item Faster development process - By using a web application, users access the system by way of a web browser. This creates a uniform environment across platforms. While user interaction with the application needs to be thoroughly tested on different web browsers, the application itself needs only be developed for a single operating system. There’s no need to develop and test it on all possible operating system versions and configurations. This makes development and troubleshooting much easier.
     \item Scalability - Being independent of hardware configurations, web applications are easily scalable. It is possible to scale the system with growing \ac{io} points or number of client instances.
 \end{itemize}
 \section{Sub-server}
@@ -388,7 +382,6 @@ In this page the user has to select the room for which the user wants to manage 
 Once the user clicks submit, the data is entered in MySQL database.
 \par
 The sub server then communicates with the central server to access the database. A python based task scheduler then schedules the task for the sub server and microcontroller according to the values of the database
-
 
 \newpage
 \nocite*{}
