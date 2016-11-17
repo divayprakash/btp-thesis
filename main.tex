@@ -265,10 +265,10 @@ The backend of the central server consists of a web application created using th
 \subsection{Design choices}
 There are various design choices that had to be made in order to create a cohesive and well-structured central server for the \ac{bms} project. The central server is implemented as a web application. The choice of a web-application was made keeping in mind the advantages of web applications over traditional desktop applications -
 \begin{itemize}
-    \item Easier deployment - The application does not need to be individual deployed to any client machine. The client machine only requires a functioning web browser to access the system.
+    \item Easier deployment - The application does not need to be individually deployed to any client machine. The client machine only requires a functioning web browser to access the system.
     \item Maintenance - System maintenance is vastly easier as all updates and bug fixes need to be introduced at the server end only. In the same manner, regular updates are also easy.
     \item Platform independent - This was the major reason in favour of using a web application. The server implemented as a web application provides complete functionality to clients running any \ac{os}.
-    \item Faster development process - By using a web application, users access the system by way of a web browser. This creates a uniform environment across platforms. While user interaction with the application needs to be thoroughly tested on different web browsers, the application itself needs only be developed for a single operating system. There’s no need to develop and test it on all possible operating system versions and configurations. This makes development and troubleshooting much easier.
+    \item Faster development process - By using a web application, users access the system by way of a web browser. This creates a uniform environment across platforms. While user interaction with the application needs to be thoroughly tested on different web browsers, the application itself needs only be developed for a single operating system. There is no need to develop and test it on all possible operating system versions and configurations. This makes development and troubleshooting much easier.
     \item Scalability - Being independent of hardware configurations, web applications are easily scalable. It is possible to scale the system with growing \ac{io} points or number of client instances.
 \end{itemize}
 \section{Sub-server}
@@ -277,7 +277,7 @@ The sub-servers are individual Raspberry Pi units running a Linux \ac{os} distri
 \subsection{Design choices}
 The choice of using a Raspberry Pi device for the sub-server was made considering the following points -
 \begin{itemize}
-    \item Ease of deployment - Due to the small size of the device, it is easy to deploy unobtrusively in extremely small spaces such as wiring closets and channels, where a power supply and Ethernet cables are available.
+    \item Ease of deployment - Due to the small size of the device, it is easy to deploy unobtrusively in extremely small spaces such as wiring closets and channels, where power supply and Ethernet cables are available.
     \item \ac{soc} - The Raspberry Pi provides us a complete system on chip ie. it integrates all the components of a computer on one single chip. This micro-computer does not require any additional chips for its functionality, with built-in Ethernet and \ac{wifi} interfaces.
 \end{itemize}
 
@@ -294,7 +294,7 @@ The web application takes inputs from the user to set the time and temperature r
 The Raspberry Pi units serving as sub-servers run a Django based web application which serves a \ac{rest} \ac{api}. This is utilised by both the microcontrollers and the central server which communicate with the device using \ac{http} messages. In addition, the sub-server device also functions as a client in some cases. This is further explained in the next section.
 \subsection{Functionality}
 \subsubsection{For microcontroller}
-All communication taking place between sub-server devices and the microcontrollers follows the client-server model. However, the server (Rapberry Pi device) cannot initiate a message send to the client (microcontroller) without a prior request from the client. Due to memory and threading constraints at the microcontroller end, interrupts have not been used. Thus all communication is initiated by the client device. 
+All communication taking place between sub-server devices and the microcontrollers follows the client-server model. However, the server (Rapberry Pi device) cannot initiate a message to the client (microcontroller) without a prior request from the client. Due to memory and threading constraints at the microcontroller end, interrupts have not been used. Thus all communication is initiated by the client device. 
 \begin{itemize}
     \item Data logging - The sub-server device provides a \ac{rest} \ac{api} method for microcontroller devices to log data. The microcontroller devices makes an \ac{http} POST request to the Raspberry Pi sub-server, which processes the attached data and stores it in the database. This data is stored in a MySQL database using microcontroller \ac{mac} addresses and the \ac{http} message timestamp as keys. Thereafter, the sub-server sends a confirmation message back to the client.
     \item Fetching commands - The microcontroller devices also fetch commands from the sub-server units. For this purpose, the microcontroller makes an \ac{http} GET request to the sub-server. The sub-server extracts the microcontroller's \ac{mac} address from the request and queries its database for any pending commands to be sent to that device. If found, it returns the same in the \ac{http} response to the client, else an empty response is sent.
