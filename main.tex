@@ -75,7 +75,7 @@
 }
 \DeclareAcronym{html}{
   short = HTML ,
-  long  = Hypertext Transfer Protocol ,
+  long  = Hypertext Markup Language ,
   class = abbrev
 }
 \DeclareAcronym{http}{
@@ -164,7 +164,6 @@ This is to certify that the above statement made by the candidate is correct to 
 \pagebreak
 
 \begin{abstract}
-
 The building management HVAC(heating, ventilation and air conditioning) system for Phase II is designed to take care (and advantage) of diversity of use. Instead of using large AHUs(Air Handling Units), we will have individual units in faculty rooms, labs, and other spaces. This would allow us to condition air of the spaces that are occupied and the system would be able to maintain desired temperature more closely. The disadvantage of this approach is higher capital cost and a larger I/O points for BMS but the running cost will be saved. In this project we are developing a scheduler hosted on a web server to control the AC’s valves connected through Raspberry Pi and Arduino.
 \vspace{2.15in}
 Keywords: building management system, scheduler, web server 
@@ -198,9 +197,9 @@ We would like to express our sincere gratitude to our advisor Prof. Hemant Kumar
 \setcounter{page}{1}
 \onehalfspacing
 \section{BMS for phase I}
-\ac{hvac} for the Phase I buildings (Academic, Lecture halls and library building) used large floor mounted \ac{ahu}'s to condition large spaces except lecture halls which were served by \ac{csu}'s (ceiling suspended units). Library building has one \ac{ahu} per floor feeding all the labs and rooms. The academic building has 6 AHUs (three serving A wing and the other three wing B). Hostels have one \ac{fcu} per room. The large AHUs of the academic block control volume of cold air by reducing the fan speed using \ac{vfd} drives. As the area per \ac{ahu} is large and the need very diverse (labs with varying number of occupants and equipment vs faculty rooms), the \ac{hvac} system is not very energy efficient and uniform temperature can't be maintained. The \ac{hvac} system has a very basic centralized control system that can set temperature to be achieved in each one the \ac{ahu}s or \ac{csu}s. It also allows switching on/ off, monitoring parameters etc centrally. Other than \ac{ahu}s/\ac{csu}s it can display status and parameters of chillers, cooling towers and hot water generator.
+\ac{hvac} for the Phase I buildings (Academic, Lecture halls and library building) used large floor mounted \ac{ahu}'s to condition large spaces except lecture halls which were served by \ac{csu}'s (ceiling suspended units). Library building has one \ac{ahu} per floor feeding all the labs and rooms. The academic building has 6 AHUs (three serving A wing and the other three wing B). Hostels have one \ac{fcu} per room. The large AHUs of the academic block control volume of cold air by reducing the fan speed using \ac{vfd} drives. As the area per \ac{ahu} is large and the need very diverse (labs with varying number of occupants and equipment vs faculty rooms), the \ac{hvac} system is not very energy efficient and uniform temperature can't be maintained. The \ac{hvac} system has a very basic centralized control that can set temperature to be achieved in each one of the \ac{ahu}s or \ac{csu}s. It also allows switching on/ off, monitoring parameters etc centrally. Other than \ac{ahu}s/\ac{csu}s it can display status and parameters of chillers, cooling towers and hot water generator.
 \par
-In \ac{bms}/ \ac{hvac} terminology each point that is controlled or read is an \ac{io} point and an \ac{io} summary is prepared for any BMS installation to estimate the cost. The \ac{io} points are of 4 types –  digital input, digital output, analog input and analog output. In phase I, we had chosen to only include \ac{io} that either needed to be controlled or the \ac{io} that were to be sensed and used for controlling to contain cost. The system was provided by Trane.
+In \ac{bms}/ \ac{hvac} terminology each point that is controlled or read is an \ac{io} point and an \ac{io} summary is prepared for any BMS installation to estimate the cost. The \ac{io} points are of 4 types - digital input, digital output, analog input and analog output. In phase I, we had chosen to only include \ac{io} that either needed to be controlled or the \ac{io} that were to be sensed and used for controlling to contain cost. The system was provided by Trane.
 \par
 Later a parallel system for monitoring and data collection was implemented by a research group led by Dr Amarjeet Singh. This group installed wireless temperature sensors (13) and Ethernet based power meters (500) all over the campus to optimize HVAC and energy use based on data collected.
 \pagebreak
@@ -210,7 +209,7 @@ The \ac{hvac} for Phase II is designed to take care (and advantage) of diversity
 \newpage
 \chapter{Problem Statement}\label{chapter:problemstatement}
 \onehalfspacing
-Given the large number of units to montor and control, the cost of \ac{bms} was estimated to be very high. In addition, for phase II, the traditional system would be close-ended and proprietary.
+Given the large number of units to monitor and control, the cost of \ac{bms} was estimated to be very high. In addition, for phase II, the traditional system would be close-ended and proprietary.
 \par
 Most of the cost (about 60\%) would have been in the wiring the large number of units to controllers. This cost can be saved if individual \ac{wifi}-based controllers (500-600) were to be deployed. These wireless devices can use the existing institute \ac{lan} infrastructure to further save costs.
 
@@ -271,7 +270,7 @@ The choice of using a Raspberry Pi device for the sub-server was made considerin
 \subsection{Description}
 The central server is a Django web application which uses a MySQL \ac{dbms}. The frontend part of the web application is done using \ac{html}/\ac{css} and bootstrap.
 \subsection{Functionality}
-The web application takes inputs from the user to set the time and temperature range for each micro-controller which the \ac{ahu}'s should work and logs the data in the MySQL database on the server according to the micro-controllers \ac{mac} address. Central server communicates to sub servers using the client-server model.
+The web application takes inputs from the user to set the time and temperature range for each micro-controller for which the \ac{ahu}'s should work and logs the data in the MySQL database on the server according to the microcontroller's \ac{mac} address. Central server communicates to sub-servers using the client-server model.
 \section{Sub-server}
 \subsection{Description}
 The Raspberry Pi units serving as sub-servers run a Django based web application which serves a \ac{rest} \ac{api}. This is utilised by both the microcontrollers and the central server which communicate with the device using \ac{http} messages. In addition, the sub-server device also functions as a client in some cases. This is further explained in the next section.
@@ -300,37 +299,35 @@ In case of the communication with the central server, the model followed is agai
 \includegraphics[width=\textwidth]{index}
 \centering
 \captionsetup{justification=centering}
-\caption{Home Page}
+\caption{Home page}
 \label{fig:index}
 \end{figure}
-The web application starts with this page. The user has to login to the application to use its features. Once the user logs in to the application, the user can control individual sub servers and microcontrollers. The user can also see the statistics of the previous settings.
-\par If the user wants to manage a sub server, the user can navigate through the raspberry pi section to reach the following page.
+The web application starts with this page. The user has to login to the application to use its features. Once the user logs in to the application, they can control individual sub-servers and microcontrollers. The user can also see the current system statistics as well as the previous parameter settings.
+\par
+If the user wants to manage a sub-server, the user can navigate through the Raspberry Pi section to reach the following page (figure \ref{fig:list}).
+
 \newpage
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{list}
 \centering
 \captionsetup{justification=centering}
-\caption{List of available Sub Server}
+\caption{List of available sub-servers}
 \label{fig:list}
 \end{figure}
-In this page the user selects the MAC address of the sub server unit and is redirected to the following page(Figure 6.3). This page also shows the location and status of the sub server units
+In this page the user selects the MAC address of the sub-server unit and is redirected to the following page (figure \ref{fig:raspberrypi}). This page also shows the location and status of the sub-server units.
 
-
+\newpage
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{raspberrypi}
 \centering
 \captionsetup{justification=centering}
-\caption{Managing a Sub Server}
+\caption{Managing a sub-server}
 \label{fig:raspberrypi}
 \end{figure}
+This page displays the information of the sub-server. The user can set the global policy for all the microcontrollers connected to the sub-server. The global policy includes the temperature range and time range in which the AHU’s should operate. The user can also view the past records of the sub-server. Once the user clicks submit, the data is entered in MySQL database.
 
-This page displays the information of the sub server. Over here, the user can set the global policy for all the microcontrollers connected by the sub server. The global policy includes the temperature range and time range in which the AHU’s should operate. The user can also view the past records of the sub server.
 \newpage
-Once the user clicks submit, the data is entered in MySQL database.
-\newpage
-If the user wants to manage individual microcontroller , the user can navigate through the arduino section in the home page to reach the following page(Figure 6.4).
-
-
+If the user wants to manage individual microcontroller, the user can navigate through the Arduino section in the home page to reach the following page (figure \ref{fig:block}).
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{block}
 \centering
@@ -338,50 +335,50 @@ If the user wants to manage individual microcontroller , the user can navigate t
 \caption{Blocks in Phase II}
 \label{fig:block}
 \end{figure}
-The sub servers in phase II are distributed in various blocks. In this page the user has to select the block for which the microcontroller needs to be managed. The user on selecting the block will be directed to the following page(Figure 6.5).
+\par
+The sub-servers in phase II are distributed in various blocks. In this page the user has to select the block for which the microcontroller needs to be managed. The user on selecting the block will be directed to the following page (figure \ref{fig:wing}).
+
+\newpage
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{wing}
+\centering
+\captionsetup{justification=centering}
+\caption{Wings in a block}
+\label{fig:wing}
+\end{figure}
+Depending on the block, the sub-servers are then divided into wings. In this page the user has to select the wing for which the user wants to manage the device. The user will then be redirected to the following page (figure \ref{fig:floor}).
+
 \newpage
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{floor}
 \centering
 \captionsetup{justification=centering}
-\caption{floors in the block}
+\caption{Floors in a wing}
 \label{fig:floor}
 \end{figure}
-Depending on the block, the sub servers are further divided into different floors. In this page the user has to select the floor for which the microcontroller needs to be managed. On selecting the floor, the user will be directed to the following page (Figure 6.6)
+Depending on the wing, the sub-servers are further divided into different floors. In this page the user has to select the floor for which the microcontroller needs to be managed. On selecting the floor, the user will be directed to the following page (figure \ref{fig:room}).
 
 \newpage
-
-\begin{figure}[h]
-\includegraphics[width=\textwidth]{wing}
-\centering
-\captionsetup{justification=centering}
-\caption{Wings in the floor}
-\label{fig:wing}
-\end{figure}
-Depending on the floor, the sub servers are then divided into wings. In this page the user has to select the wing for which the user wants to manage the device. The user will then be redirected to the "Room" page (Figure 6.7)
-
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{room}
 \centering
 \captionsetup{justification=centering}
-\caption{Rooms in a wing}
+\caption{Rooms in a floor}
 \label{fig:room}
 \end{figure}
-In this page the user has to select the room for which the user wants to manage the microcontroller unit. The user will then be redirected to the following page(Figure 6.8).
+In this page the user has to select the room for which the user wants to manage the microcontroller unit. The user will then be redirected to the following page (figure \ref{fig:arduino}).
 
 \newpage
 \begin{figure}[h]
-\includegraphics[width=\textwidth]{arduino1}
+\includegraphics[width=\textwidth]{arduino}
 \centering
 \captionsetup{justification=centering}
 \caption{Managing the microcontroller}
-\label{fig:arduino1}
+\label{fig:arduino}
 \end{figure}
-\newpage This page displays the information of the microcontroller. Over here, the user can set the policy for the microcontroller connected by the sub server. The policy includes the temperature range and time range in which the AHU should operate. The user can also view the past records of the sub server.
+This page displays the information of the microcontroller. The user can set the policy for the microcontroller. The policy includes the temperature range and time range in which the AHU should operate. The user can also view the past records of the microcontroller. Once the user clicks submit, the data is entered in MySQL database.
 \par
-Once the user clicks submit, the data is entered in MySQL database.
-\par
-The sub server then communicates with the central server to access the database. A python based task scheduler then schedules the task for the sub server and microcontroller according to the values of the database
+The central server then communicates with the python server to pass the command. A Python based task scheduler schedules the task for the sub-server and microcontroller according to the values in the database.
 
 \newpage
 \nocite*{}
