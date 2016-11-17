@@ -122,6 +122,11 @@
   long  = Secure Digital ,
   class = abbrev
 }
+\DeclareAcronym{soc}{
+  short = SoC ,
+  long  = System on Chip ,
+  class = abbrev
+}
 \DeclareAcronym{vfd}{
   short = VFD ,
   long  = Variable Frequency Drive ,
@@ -241,19 +246,36 @@ The \ac{bms}/ \ac{hvac} system, is structured in the manner described by figure 
 The higher level control of the building management system is carried out by the central server in conjunction with various sub-server units managing their own group of microcontroller devices. The details of the central server and the sub-servers are given in the following sections.
 \section{Central server}
 The central server of the system is a software implementation only. There are no specific hardware requirements for the same. The server is implemented in such a manner so as to be able to provide interfaces to both the sub-server devices using a \ac{rest} \ac{api} and also to system administrators by way of a \ac{gui}. If required, the central server could be on the cloud. The server can be broken down into two main modules, the frontend and the backend. Both of these modules were built over the course of this project.
-\subsection{Frontend}
+\subsection{Design specifications}
+\subsubsection{Frontend}
 The frontend of the central server consists of a hierarchy of web pages created using \ac{html}/\newline \ac{css}/JavaScript/jQuery and the Bootstrap framework. This provides the \ac{gui} which can be used by system administrators for overall analysis/control of the system.
-\subsection{Backend}
+\subsubsection{Backend}
 The backend of the central server consists of a web application created using the Python web framework Django. The system used MySQL as the database management system.
+\subsection{Design choices}
+There are various design choices that had to be made in order to create a cohesive and well-structured central server for the \ac{bms} project. The central server is implemented as a web application. The choice of a web-application was made keeping in mind the advantages of web applications over traditional desktop applications -
+\begin{itemize}
+    \item Easier deployment - The application does not need to be individuall deployed to any client machine. The client machine only requires a functioning web browser to access the system.
+    \item Maintenance - System maintenance is vastly easier as all updates and bug fixes need to be introduced at the server end only. In the same manner, regular updates are also easy.
+    \item Platform independent - This was the major reason in favour of using a web application. The server implemented as a web application provides complete functionality to clients running any \ac{os}.
+    \item Faster development process - By using a web apllication, users access the system by way of a web browser. This creates a uniform environment across platforms. While user interaction with the application needs to be thoroughly tested on different web browsers, the application itself needs only be developed for a single operating system. There’s no need to develop and test it on all possible operating system versions and configurations. This makes development and troubleshooting much easier.
+    \item Scalability - Being independent of hardware configurations, web applications are easily scalable. It is possible to scale the system with growing \ac{io} points or number of client instances.
+\end{itemize}
 \section{Sub-server}
-The sub-servers are individual Raspberry Pi units running a Linux \ac{os} distribution. These devices are connected to the central server using a wired Ethernet connection and each unit manages upto 20 AVR microcontroller units over a \ac{wifi} interface. The Raspberry Pi devices host a web server which provides various functionalities. Over the course of this project, the web server was ported from a \verb|BaseHTTPServer| to a Django-based server, both coded in Python.
+\subsection{Design specifications}
+The sub-servers are individual Raspberry Pi units running a Linux \ac{os} distribution. These devices are connected to the central server using a wired Ethernet connection and each unit manages up to 20 AVR microcontroller units over a \ac{wifi} interface. The Raspberry Pi devices host a web server which provides various functionalities. Over the course of this project, the web server was ported from a \verb|BaseHTTPServer| to a Django-based server, both coded in Python.
+\subsection{Design choices}
+The choice of using a Raspberry Pi device for the sub-server was made considering the following points -
+\begin{itemize}
+    \item Ease of deployment - Due to the small size of the device, it is easy to deploy unobtrusively in extremely small spaces such as wiring closets and channels, where a power supply and Ethernet cables are available.
+    \item \ac{soc} - The Raspberry Pi provides us a complete system on chip ie. it integrates all the components of a computer on one single chip. This micro-computer does not require any additional chips for its functionality, with built-in Ethernet and \ac{wifi} interfaces.
+\end{itemize}
 
 \newpage
 \chapter{Implementation}\label{chapter:Implementation}
 \onehalfspacing
 \section{Central server}
 \subsection{Description}
-The central server is a Django web application which uses a MySQL \ac{dbms}. The frontend part of the web application is done using \ac{html}/\ac{css} and bootstrap. 
+The central server is a Django web application which uses a MySQL \ac{dbms}. The frontend part of the web application is done using \ac{html}/\ac{css} and bootstrap.
 \subsection{Functionality}
 The web application takes inputs from the user to set the time and temperature range for each micro-controller which the \ac{ahu}'s should work and logs the data in the MySQL database on the server according to the micro-controllers \ac{mac} address. Central server communicates to sub servers using the client-server model.
 \section{Sub-server}
@@ -280,6 +302,93 @@ In case of the communication with the central server, the model followed is agai
 \newpage
 \chapter{Specification}\label{chapter:Specification}
 \onehalfspacing
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{index}
+\centering
+\captionsetup{justification=centering}
+\caption{Home Page}
+\label{fig:index}
+\end{figure}
+The web application starts with this page. The user has to login to the application to use its features. Once the user logs in to the application, the user can control individual sub servers and microcontrollers. The user can also see the statistics of the previous settings.
+\par If the user wants to manage a sub server, the user can navigate through the raspberry pi section to reach the following page.
+\newpage
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{list}
+\centering
+\captionsetup{justification=centering}
+\caption{List of available Sub Server}
+\label{fig:list}
+\end{figure}
+In this page the user selects the MAC address of the sub server unit and is redirected to the following page(Figure 6.3). This page also shows the location and status of the sub server units
+
+
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{raspberrypi}
+\centering
+\captionsetup{justification=centering}
+\caption{Managing a Sub Server}
+\label{fig:raspberrypi}
+\end{figure}
+
+This page displays the information of the sub server. Over here, the user can set the global policy for all the microcontrollers connected by the sub server. The global policy includes the temperature range and time range in which the AHU’s should operate. The user can also view the past records of the sub server.
+\newpage
+Once the user clicks submit, the data is entered in MySQL database.
+\newpage
+If the user wants to manage individual microcontroller , the user can navigate through the arduino section in the home page to reach the following page(Figure 6.4).
+
+
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{block}
+\centering
+\captionsetup{justification=centering}
+\caption{Blocks in Phase II}
+\label{fig:block}
+\end{figure}
+The sub servers in phase II are distributed in various blocks. In this page the user has to select the block for which the microcontroller needs to be managed. The user on selecting the block will be directed to the following page(Figure 6.5).
+\newpage
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{floor}
+\centering
+\captionsetup{justification=centering}
+\caption{floors in the block}
+\label{fig:floor}
+\end{figure}
+Depending on the block, the sub servers are further divided into different floors. In this page the user has to select the floor for which the microcontroller needs to be managed. On selecting the floor, the user will be directed to the following page (Figure 6.6)
+
+\newpage
+
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{wing}
+\centering
+\captionsetup{justification=centering}
+\caption{Wings in the floor}
+\label{fig:wing}
+\end{figure}
+Depending on the floor, the sub servers are then divided into wings. In this page the user has to select the wing for which the user wants to manage the device. The user will then be redirected to the "Room" page (Figure 6.7)
+
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{room}
+\centering
+\captionsetup{justification=centering}
+\caption{Rooms in a wing}
+\label{fig:room}
+\end{figure}
+In this page the user has to select the room for which the user wants to manage the microcontroller unit. The user will then be redirected to the following page(Figure 6.8).
+
+\newpage
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{arduino1}
+\centering
+\captionsetup{justification=centering}
+\caption{Managing the microcontroller}
+\label{fig:arduino1}
+\end{figure}
+\newpage This page displays the information of the microcontroller. Over here, the user can set the policy for the microcontroller connected by the sub server. The policy includes the temperature range and time range in which the AHU should operate. The user can also view the past records of the sub server.
+\par
+Once the user clicks submit, the data is entered in MySQL database.
+\par
+The sub server then communicates with the central server to access the database. A python based task scheduler then schedules the task for the sub server and microcontroller according to the values of the database
+
 
 \newpage
 \nocite*{}
