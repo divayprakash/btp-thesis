@@ -113,11 +113,6 @@
   long  = Representational State Transfer ,
   class = abbrev
 }
-\DeclareAcronym{sd}{
-  short = SD ,
-  long  = Secure Digital ,
-  class = abbrev
-}
 \DeclareAcronym{soc}{
   short = SoC ,
   long  = System on Chip ,
@@ -253,7 +248,7 @@ There are various design choices that had to be made in order to create a cohesi
 \end{itemize}
 \section{Sub-server}
 \subsection{Design specifications}
-The sub-servers are individual Raspberry Pi units running a Linux \ac{os} distribution. These devices are connected to the central server using a wired Ethernet connection and each unit manages up to 20 AVR microcontroller units over a \ac{wifi} interface. The Raspberry Pi devices host a web server which provides various functionalities. Over the course of this project, the entire Django server was rewritten to provide enhanced functionality while being lightweight. The database system being used to store client data was moved from a MySQL database management system to a flat file system.
+The sub-servers are individual Raspberry Pi units running a Linux \ac{os} distribution. These devices are connected to the central server using a wired Ethernet connection and each unit manages up to 20 AVR microcontroller units over a \ac{wifi} interface. The Raspberry Pi devices host a web server which provides various functionalities.
 \subsection{Design choices}
 The choice of using a Raspberry Pi device for the sub-server was made considering the following points -
 \begin{itemize}
@@ -271,7 +266,7 @@ The central server is a Django web application which uses a time-series \ac{dbms
 The central server has been coded as a stand-in for a more comprehensive implementation in the future. Presently, it consists of a barebones Django server with little functionality apart from receiving data files from  and sending configuration files to the sub-server units.
 \section{Sub-server}
 \subsection{Description}
-The Raspberry Pi units serving as sub-servers run a Django based web application which serves a \ac{rest} \ac{api}. This is utilised by both the ESP devices and the central server which communicate with the device using \ac{http} messages. In addition, the sub-server device also functions as a client in some cases. This is further explained in the next section.
+The Raspberry Pi units serving as sub-servers run a Django based web application which serves a \ac{rest} \ac{api}. This is utilised by both the ESP devices and the central server which communicate with the device using \ac{http} messages. This is further explained in the next section. Over the course of this project, the entire Django server was rewritten to provide enhanced functionality while being lightweight. The database system being used to store client data was moved from a MySQL database management system to a flat file system.
 \subsection{Functionality}
 \subsubsection{For ESP device}
 Communication taking place between sub-server devices and the ESP devices follows the client-server model in case of data logging, whereas in the case of setting configuration, the sub-server (Rapberry Pi device) initiates a message to the client (ESP device) without a prior request from the client.
@@ -282,94 +277,8 @@ Communication taking place between sub-server devices and the ESP devices follow
 \subsubsection{For central server}
 \begin{itemize}
     \item Receive configuration file - The sub-server device acts as a client for this method, used by the central server to transmit a \verb|json| file to the sub-server using an \ac{http} POST message.
-    \item With no prior request - The Raspberry Pi device uses an \ac{sd} card to store data persistently. To ensure longevity of the system, it is essential to keep the number of read/write cycles on the card to a minimum. Thus data logs are stored in primary memory. While this solves the \ac{sd} card issue, it creates another as main system memory is being taken up by static data. To resolve this issue, the Raspberry Pi device dumps the data logs to the central server using \ac{http} POST messages at a fixed time interval. This enables the deletion of the files at sub-server end, freeing up valuable memory resources.
+    \item Send logging data - The Raspberry Pi device sends the data log to the central server using \ac{http} POST message containing a log file at a fixed time interval. This enables the deletion of the files at sub-server end, freeing up valuable memory resources.
 \end{itemize}
-
-\newpage
-\chapter{Specification}\label{chapter:Specification}
-\onehalfspacing
-\begin{figure}[h]
-\includegraphics[width=\textwidth]{index}
-\centering
-\captionsetup{justification=centering}
-\caption{Home page}
-\label{fig:index}
-\end{figure}
-The web application starts with this page. The user has to login to the application to use its features. Once the user logs in to the application, they can control individual sub-servers and microcontrollers. The user can also see the current system statistics as well as the previous parameter settings.
-\par
-If the user wants to manage a sub-server, the user can navigate through the Raspberry Pi section to reach the following page (figure \ref{fig:list}).
-
-\newpage
-\begin{figure}[h]
-\includegraphics[width=\textwidth]{list}
-\centering
-\captionsetup{justification=centering}
-\caption{List of available sub-servers}
-\label{fig:list}
-\end{figure}
-In this page the user selects the MAC address of the sub-server unit and is redirected to the following page (figure \ref{fig:raspberrypi}). This page also shows the location and status of the sub-server units.
-
-\newpage
-\begin{figure}[h]
-\includegraphics[width=\textwidth]{raspberrypi}
-\centering
-\captionsetup{justification=centering}
-\caption{Managing a sub-server}
-\label{fig:raspberrypi}
-\end{figure}
-This page displays the information of the sub-server. The user can set the global policy for all the microcontrollers connected to the sub-server. The global policy includes the temperature range and time range in which the AHU’s should operate. The user can also view the past records of the sub-server. Once the user clicks submit, the data is entered in MySQL database. If the user wants to manage individual microcontroller, the user can navigate through the Arduino section in the home page to reach the following page (figure \ref{fig:block}).
-
-\newpage
-\begin{figure}[h]
-\includegraphics[width=\textwidth]{block}
-\centering
-\captionsetup{justification=centering}
-\caption{Blocks in Phase II}
-\label{fig:block}
-\end{figure}
-The sub-servers in phase II are distributed in various blocks. In this page the user has to select the block for which the microcontroller needs to be managed. On selecting the block, the user will be directed to the following page (figure \ref{fig:wing}).
-
-\newpage
-\begin{figure}[h]
-\includegraphics[width=\textwidth]{wing}
-\centering
-\captionsetup{justification=centering}
-\caption{Wings in a block}
-\label{fig:wing}
-\end{figure}
-Depending on the block, the sub-servers are then divided into wings. In this page the user has to select the wing for which the user wants to manage the device. The user will then be redirected to the following page (figure \ref{fig:floor}).
-
-\newpage
-\begin{figure}[h]
-\includegraphics[width=\textwidth]{floor}
-\centering
-\captionsetup{justification=centering}
-\caption{Floors in a wing}
-\label{fig:floor}
-\end{figure}
-Depending on the wing, the sub-servers are further divided into different floors. In this page the user has to select the floor for which the microcontroller needs to be managed. On selecting the floor, the user will be directed to the following page (figure \ref{fig:room}).
-
-\newpage
-\begin{figure}[h]
-\includegraphics[width=\textwidth]{room}
-\centering
-\captionsetup{justification=centering}
-\caption{Rooms in a floor}
-\label{fig:room}
-\end{figure}
-In this page the user has to select the room for which the user wants to manage the microcontroller unit. The user will then be redirected to the following page (figure \ref{fig:arduino}).
-
-\newpage
-\begin{figure}[h]
-\includegraphics[width=\textwidth]{arduino}
-\centering
-\captionsetup{justification=centering}
-\caption{Managing the microcontroller}
-\label{fig:arduino}
-\end{figure}
-This page displays the information of the microcontroller. The user can set the policy for the microcontroller. The policy includes the temperature range and time range in which the AHU should operate. The user can also view the past records of the microcontroller. Once the user clicks submit, the data is entered in MySQL database.
-\par
-The central server then communicates with the python server to pass the command. A Python based task scheduler schedules the task for the sub-server and microcontroller according to the values in the database.
 
 \newpage
 \nocite*{}
