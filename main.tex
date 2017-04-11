@@ -143,12 +143,12 @@
 \begin{center}
 \textbf{\Large Student's Declaration}\label{section:declaration}
 \end{center}
-We hereby declare that the work presented in the report entitled \textbf{\title{}} submitted by us for the partial fulfillment of the requirements for the degree of \emph{Bachelor of Technology} in \emph{Computer Science \& Engineering} and \emph{Bachelor of Technology} in \emph{Electronics and Communication Engineering} respectively at Indraprastha Institute of Information Technology, Delhi, is an authentic record of our work carried out under guidance of \textbf{Prof. Hemant Kumar}. Due acknowledgements have  been given in the report to all material used. This work has not been submitted anywhere else for the reward of any other degree.\\
+I hereby declare that the work presented in the report entitled \textbf{\title{}} submitted by me for the partial fulfillment of the requirements for the degree of \emph{Bachelor of Technology} in \emph{Computer Science \& Engineering} at Indraprastha Institute of Information Technology, Delhi, is an authentic record of my work carried out under guidance of \textbf{Prof. Hemant Kumar}. Due acknowledgements have  been given in the report to all material used. This work has not been submitted anywhere else for the reward of any other degree.\\
 \vspace{0.5in}
 
 \textbf{..............................}\hfill
 \textbf{ Place \& Date: .............................}\\
-\textbf{Divay Prakash, Amogh Vithalkar}
+\textbf{Divay Prakash}
 
 \vspace{3in}
 \begin{center}
@@ -174,29 +174,9 @@ Keywords: building management system, scheduler, web server
 \section*{Acknowledgments}\label{section:acknowledgments}
 \pagestyle{plain}
 \pagenumbering{roman}
-We take this opportunity to express our deepest gratitude and appreciation to all those
-who have helped us directly or indirectly towards the successful completion of this project.
+I take this opportunity to express my deepest gratitude and appreciation to all those who have helped me directly or indirectly towards the successful completion of this project.
 \par
-We would like to express our sincere gratitude to our advisor Prof. Hemant Kumar for providing his invaluable guidance, comments and suggestions throughout the course of the project.
-
-\vspace{2in}
-
-\section*{Work Distribution}\label{section:workdistribution}
-The distribution of work done by the team members over the course of this project is as\\ follows -
-\begin{itemize}
-    \item Divay Prakash
-    \begin{itemize}
-        \item Designed and implemented the frontend for the central server
-        \item Documented Python code written for the sub-server
-        \item Documented Arduino code written for the microcontroller
-        \item Ported sub-server from \verb|BaseHTTPServer| to Django server
-    \end{itemize}
-    \item Amogh Vithalkar
-    \begin{itemize}
-        \item Implemented the backend for the central server
-        \item Built a scheduler for the central server
-    \end{itemize}
-\end{itemize}
+I would like to express my sincere gratitude to my advisor Prof. Hemant Kumar for providing his invaluable guidance, comments and suggestions throughout the course of the project.
 
 \newpage
 \tableofcontents
@@ -229,19 +209,19 @@ The \ac{hvac} for Phase II of IIIT-Delhi campus is designed to take care (and ad
 \onehalfspacing
 Given the large number of units to monitor and control, the cost of \ac{bms} was estimated to be very high. In addition, for phase II, the traditional system would be close-ended and proprietary.
 \par
-Most of the cost (about 60\%) would have been in the wiring the large number of units to controllers. This cost can be saved if individual \ac{wifi}-based controllers (500-600) were to be deployed. These wireless devices can use the existing institute \ac{lan} infrastructure to further save costs.
+Most of the cost (about 60\%) would have been in the wiring the large number of units to controllers. This cost can be saved if individual \ac{wifi}-based controllers (500-600) were to be deployed. These wireless devices can use the existing institute \ac{lan} infrastructure to further save costs. In addition, groups of these devices would be controlled by Raspberry Pi devices running a custom Django server which would further be controlled by a central Django server. This central server would provide a \ac{gui} for administrators to monitor and control the entire \ac{bms} system.
 
 \newpage
 \chapter{Architecture}\label{chapter:architecture}
 \onehalfspacing
 \begin{figure}[h]
-\includegraphics[width=6cm, height=10cm]{arch}
+\includegraphics[width=14cm, height=10cm]{arch}
 \centering
 \captionsetup{justification=centering}
 \caption{Block diagram of the building management system project}
 \label{fig:arch}
 \end{figure}
-The \ac{bms}/ \ac{hvac} system, is structured in the manner described by figure \ref{fig:arch}. At the lowest level is the AHU (Air Handling Unit), which performs the actual cooling/heating functionality of the system. It is controlled by the microcontroller. The microcontroller monitors various system parameters and accordingly runs the \ac{ahu}. It is in turn controlled by a sub-server unit, which is responsible for logging data and passing control instructions to the microcontroller unit according to policies set by the central server. The highlighted sections in figure \ref{fig:arch} are the modules that were worked upon over the course of this project. In addition, code documentation for the entire stack was also written.
+The \ac{bms}/ \ac{hvac} system, is structured in the manner described by figure \ref{fig:arch}. At the lowest level is the \ac{ahu}, which performs the actual cooling/heating functionality of the system. It is controlled by the microcontroller. The microcontroller monitors various system parameters and accordingly runs the \ac{ahu}. The microcontroller runs in a master-slave configuration wherein the master is an ESP8266 wireless module which is responsible for communication with further control levels. This system is in controlled by a Raspberry Pi sub-server unit, which is responsible for logging data and passing control instructions to the microcontroller/wifi module unit according to policies set by the central server. The highlighted sections in figure \ref{fig:arch} are the modules that were worked upon over the course of this project.
 
 \newpage
 \chapter{Design}\label{chapter:Design}
@@ -261,7 +241,7 @@ The central server of the system is a software implementation only. There are no
 \subsubsection{Frontend}
 The frontend of the central server consists of a hierarchy of web pages created using \ac{html}/\newline \ac{css}/JavaScript/jQuery and the Bootstrap framework. This provides the \ac{gui} which can be used by system administrators for overall analysis/control of the system.
 \subsubsection{Backend}
-The backend of the central server consists of a web application created using the Python web framework Django. The system used MySQL as the database management system.
+The backend of the central server consists of a web application created using the Python web framework Django. The system uses time series database for storing the client data.
 \subsection{Design choices}
 There are various design choices that had to be made in order to create a cohesive and well-structured central server for the \ac{bms} project. The central server is implemented as a web application. The choice of a web-application was made keeping in mind the advantages of web applications over traditional desktop applications -
 \begin{itemize}
@@ -273,12 +253,12 @@ There are various design choices that had to be made in order to create a cohesi
 \end{itemize}
 \section{Sub-server}
 \subsection{Design specifications}
-The sub-servers are individual Raspberry Pi units running a Linux \ac{os} distribution. These devices are connected to the central server using a wired Ethernet connection and each unit manages up to 20 AVR microcontroller units over a \ac{wifi} interface. The Raspberry Pi devices host a web server which provides various functionalities. Over the course of this project, the web server was ported from a \verb|BaseHTTPServer| to a Django-based server, both coded in Python.
+The sub-servers are individual Raspberry Pi units running a Linux \ac{os} distribution. These devices are connected to the central server using a wired Ethernet connection and each unit manages up to 20 AVR microcontroller units over a \ac{wifi} interface. The Raspberry Pi devices host a web server which provides various functionalities. Over the course of this project, the entire Django server was rewritten to provide enhanced functionality while being lightweight. The database system being used to store client data was moved from a MySQL database management system to a flat file system.
 \subsection{Design choices}
 The choice of using a Raspberry Pi device for the sub-server was made considering the following points -
 \begin{itemize}
     \item Ease of deployment - Due to the small size of the device, it is easy to deploy unobtrusively in extremely small spaces such as wiring closets and channels, where power supply and Ethernet cables are available.
-    \item \ac{soc} - The Raspberry Pi provides us a complete system on chip ie. it integrates all the components of a computer on one single chip. This micro-computer does not require any additional chips for its functionality, with built-in Ethernet and \ac{wifi} interfaces.
+    \item \ac{soc} - The Raspberry Pi provides us a complete system on chip ie. it integrates all the components of a computer on one single chip. This micro-computer does not require any additional chips for its functionality, with a built-in Ethernet interface.
 \end{itemize}
 
 \newpage
@@ -286,28 +266,23 @@ The choice of using a Raspberry Pi device for the sub-server was made considerin
 \onehalfspacing
 \section{Central server}
 \subsection{Description}
-The central server is a Django web application which uses a MySQL \ac{dbms}. The frontend part of the web application is done using \ac{html}/\ac{css} and bootstrap.
+The central server is a Django web application which uses a time-series \ac{dbms}. The frontend part of the web application is done using \ac{html}/\ac{css} and bootstrap.
 \subsection{Functionality}
-The web application takes inputs from the user to set the time and temperature range for each micro-controller for which the \ac{ahu}'s should work and logs the data in the MySQL database on the server according to the microcontroller's \ac{mac} address. Central server communicates to sub-servers using the client-server model.
+The central server has been coded as a stand-in for a more comprehensive implementation in the future. Presently, it consists of a barebones Django server with little functionality apart from receiving data files from  and sending configuration files to the sub-server units.
 \section{Sub-server}
 \subsection{Description}
-The Raspberry Pi units serving as sub-servers run a Django based web application which serves a \ac{rest} \ac{api}. This is utilised by both the microcontrollers and the central server which communicate with the device using \ac{http} messages. In addition, the sub-server device also functions as a client in some cases. This is further explained in the next section.
+The Raspberry Pi units serving as sub-servers run a Django based web application which serves a \ac{rest} \ac{api}. This is utilised by both the ESP devices and the central server which communicate with the device using \ac{http} messages. In addition, the sub-server device also functions as a client in some cases. This is further explained in the next section.
 \subsection{Functionality}
-\subsubsection{For microcontroller}
-All communication taking place between sub-server devices and the microcontrollers follows the client-server model. However, the server (Rapberry Pi device) cannot initiate a message to the client (microcontroller) without a prior request from the client. Due to memory and threading constraints at the microcontroller end, interrupts have not been used. Thus all communication is initiated by the client device. 
+\subsubsection{For ESP device}
+Communication taking place between sub-server devices and the ESP devices follows the client-server model in case of data logging, whereas in the case of setting configuration, the sub-server (Rapberry Pi device) initiates a message to the client (ESP device) without a prior request from the client.
 \begin{itemize}
-    \item Data logging - The sub-server device provides a \ac{rest} \ac{api} method for microcontroller devices to log data. The microcontroller devices makes an \ac{http} POST request to the Raspberry Pi sub-server, which processes the attached data and stores it in the database. This data is stored in a MySQL database using microcontroller \ac{mac} addresses and the \ac{http} message timestamp as keys. Thereafter, the sub-server sends a confirmation message back to the client.
-    \item Fetching commands - The microcontroller devices also fetch commands from the sub-server units. For this purpose, the microcontroller makes an \ac{http} GET request to the sub-server. The sub-server extracts the microcontroller's \ac{mac} address from the request and queries its database for any pending commands to be sent to that device. If found, it returns the same in the \ac{http} response to the client, else an empty response is sent.
+    \item Data logging - The sub-server device provides a \ac{rest} \ac{api} method for ESP devices to log data. The ESP device makes an \ac{http} POST request to the Raspberry Pi sub-server, which processes the attached data and stores it in a file. This data is stored using the ESP \ac{mac} addresses and the \ac{http} sub-server timestamp as keys. Thereafter, the sub-server sends a confirmation message back to the client.
+    \item Setting configuration - The ESP devices also receives configuration messages from the sub-server units. These messages contain the register values which will be written to the microcontroller for \ac{ahu} control.\hfill \break The sub-server extracts the ESP devices' \ac{mac} address from the configuration file, along with the data to be sent to the client. It then makes an \ac{http} GET request to the ESP device containing the data.
 \end{itemize}
 \subsubsection{For central server}
-In case of the communication with the central server, the model followed is again client-server model. However, both the sub-server and central server can initiate message sending.
 \begin{itemize}
-    \item Receive commands - The sub-server device acts as a client for this method, used by the central server to transmit commands to the sub-server using \ac{http} messages.
-    \item Send data
-    \begin{itemize}
-        \item With prior request - This method is followed if the central server requests data logs from the sub-server using an \ac{http} GET message as-and-when required.
-        \item With no prior request - The Raspberry Pi device uses an \ac{sd} card to store data persistently. To ensure longevity of the system, it is essential to keep the number of read/write cycles on the card to a minimum. Thus data logs are stored in primary memory. While this solves the \ac{sd} card issue, it creates another as main system memory is being taken up by static data. To resolve this issue, the Raspberry Pi device dumps the data logs to the central server using \ac{http} POST messages at a fixed time interval. This enables the deletion of the files at sub-server end, freeing up valuable memory resources.
-    \end{itemize}
+    \item Receive configuration file - The sub-server device acts as a client for this method, used by the central server to transmit a \verb|json| file to the sub-server using an \ac{http} POST message.
+    \item With no prior request - The Raspberry Pi device uses an \ac{sd} card to store data persistently. To ensure longevity of the system, it is essential to keep the number of read/write cycles on the card to a minimum. Thus data logs are stored in primary memory. While this solves the \ac{sd} card issue, it creates another as main system memory is being taken up by static data. To resolve this issue, the Raspberry Pi device dumps the data logs to the central server using \ac{http} POST messages at a fixed time interval. This enables the deletion of the files at sub-server end, freeing up valuable memory resources.
 \end{itemize}
 
 \newpage

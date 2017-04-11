@@ -1,6 +1,6 @@
 \documentclass{standalone}
 \usepackage{tikz}
-\usetikzlibrary{shapes.geometric, arrows}
+\usetikzlibrary{shapes.geometric, arrows, calc, positioning}
 
 \definecolor{pantone}{RGB}{63,173,168}
 \definecolor{red}{RGB}{255,0,0}
@@ -14,14 +14,21 @@
 
 \node (centralserver) [blockred] {\textbf{{Central server}}};
 \node (subserver) [blockred, below of=centralserver] {\textbf{{Sub-server}}};
-\node (microcontroller) [blockblack, below of=subserver] {Microcontroller};
+\node (esp) [blockblack, below of=subserver] {ESP WiFi module};
+\node (microcontroller) [blockblack, left=2cm of esp.west] {Microcontroller};
+
 \node (ahu) [blockblack, below of=microcontroller] {AHU};
 
 \draw [arrow, bend right] (centralserver) edge (subserver);
 \draw [arrow, bend right] (subserver) edge node[anchor=west] {Wired Ethernet} (centralserver);
-\draw [arrow] (microcontroller) edge node[anchor=west] {WiFi} (subserver);
+\draw [arrow, bend right] (subserver) edge (esp);
+\draw [arrow, bend right] (esp) edge node[anchor=west] {WiFi} (subserver);
+\draw [arrow, bend right=10] (esp) edge (microcontroller);
+\draw [arrow, bend right=10] (microcontroller) edge (esp);
 \draw [arrow, bend right] (microcontroller) edge (ahu);
 \draw [arrow, bend right] (ahu) edge (microcontroller);
+
+\draw[ultra thick,dotted] ($(microcontroller.north west)+(-0.15,0.15)$) rectangle ($(esp.south east)+(0.15,-0.15)$);
 
 \end{tikzpicture}
 
