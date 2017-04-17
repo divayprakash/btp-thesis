@@ -224,8 +224,16 @@ This project is a continuation from the previous semester. A summary of the work
     \item Designed and implemented the frontend for the central server
     \item Documented Python code written for the Raspberry Pi sub-server
     \item Documented Arduino code written for the microcontroller
-    \item Ported sub-server from \verb|BaseHTTPServer| to Django server - This employed
+    \item Ported sub-server from \verb|BaseHTTPServer| to Django server
 \end{itemize}
+\begin{figure}[h]
+\includegraphics[width=12cm, height=8cm]{collage_edited}
+\centering
+\captionsetup{justification=centering}
+\caption{HTML templates for the central server frontend}
+\label{fig:collage_edited}
+\end{figure}
+
 
 \newpage
 \chapter{Architecture}\label{chapter:architecture}
@@ -252,12 +260,12 @@ The \ac{bms}/ \ac{hvac} system, is structured in the manner described by figure 
 \end{figure}
 The higher level control of the building management system is carried out by the central server in conjunction with various sub-server units managing their own group of microcontroller devices. The details of the central server and the sub-servers are given in the following sections.
 \section{Central server}
-The central server of the system is a software implementation only. There are no specific hardware requirements for the same. The server is implemented in such a manner so as to be able to provide interfaces to both the sub-server devices using a \ac{rest} \ac{api} and also to system administrators by way of a \ac{gui}. If required, the central server could be on the cloud. The server can be broken down into two main modules, the frontend and the backend. Both of these modules were built over the course of this project.
+The central server of the system is a software implementation only. There are no specific hardware requirements for the same. The server is implemented in such a manner so as to be able to provide interfaces to both the sub-server devices using a \ac{rest} \ac{api} and also to system administrators by way of a \ac{gui}. If required, the central server could be on the cloud. The server can be broken down into two main modules, the frontend and the backend. A proof of concept implementation of the backend was worked upon over the course of this project.
 \subsection{Design specifications}
 \subsubsection{Frontend}
 The frontend of the central server consists of a hierarchy of web pages created using \ac{html}/\newline \ac{css}/JavaScript/jQuery and the Bootstrap framework. This provides the \ac{gui} which can be used by system administrators for overall analysis/control of the system.
 \subsubsection{Backend}
-The backend of the central server consists of a web application created using the Python web framework Django. The system uses time series database for storing the client data.
+The backend of the central server consists of a web application created using the Python web framework Django.
 \subsection{Design choices}
 There are various design choices that had to be made in order to create a cohesive and well-structured central server for the \ac{bms} project. The central server is implemented as a web application. The choice of a web-application was made keeping in mind the advantages of web applications over traditional desktop applications -
 \begin{itemize}
@@ -269,12 +277,13 @@ There are various design choices that had to be made in order to create a cohesi
 \end{itemize}
 \section{Sub-server}
 \subsection{Design specifications}
-The sub-servers are individual Raspberry Pi units running a Linux \ac{os} distribution. These devices are connected to the central server using a wired Ethernet connection and each unit manages up to 20 AVR microcontroller units over a \ac{wifi} interface. The Raspberry Pi devices host a web server which provides various functionalities.
+The sub-servers are individual Raspberry Pi units running a Debian based Linux \ac{os} distribution called Raspbian. These devices are connected to the central server using a wired Ethernet connection and each unit manages up to 20 AVR microcontroller units over a \ac{wifi} interface. The Raspberry Pi devices host a web server which provides various functionalities.
 \subsection{Design choices}
 The choice of using a Raspberry Pi device for the sub-server was made considering the following points -
 \begin{itemize}
     \item Ease of deployment - Due to the small size of the device, it is easy to deploy unobtrusively in extremely small spaces such as wiring closets and channels, where power supply and Ethernet cables are available.
     \item \ac{soc} - The Raspberry Pi provides us a complete system on chip ie. it integrates all the components of a computer on one single chip. This micro-computer does not require any additional chips for its functionality, with a built-in Ethernet interface.
+    \item Remote debugging - The Raspberry Pi devices can be accessed by an administrator using \ac{ssh} for the purpose of code updation/ remote debugging etc. There is no need to obtain physical access to the device which would be difficult in most cases.
 \end{itemize}
 
 \newpage
