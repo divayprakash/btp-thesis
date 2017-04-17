@@ -93,6 +93,11 @@
   long  = Input/Output ,
   class = abbrev
 }
+\DeclareAcronym{json}{
+  short = JSON ,
+  long  = JavaScript Object Notation ,
+  class = abbrev
+}
 \DeclareAcronym{lan}{
   short = LAN ,
   long  = Local Area Network ,
@@ -116,6 +121,11 @@
 \DeclareAcronym{soc}{
   short = SoC ,
   long  = System on Chip ,
+  class = abbrev
+}
+\DeclareAcronym{ssh}{
+  short = SSH ,
+  long  = Secure Shell ,
   class = abbrev
 }
 \DeclareAcronym{vfd}{
@@ -207,6 +217,17 @@ Given the large number of units to monitor and control, the cost of \ac{bms} was
 Most of the cost (about 60\%) would have been in the wiring the large number of units to controllers. This cost can be saved if individual \ac{wifi}-based controllers (500-600) were to be deployed. These wireless devices can use the existing institute \ac{lan} infrastructure to further save costs. In addition, groups of these devices would be controlled by Raspberry Pi devices running a custom Django server which would further be controlled by a central Django server. This central server would provide a \ac{gui} for administrators to monitor and control the entire \ac{bms} system.
 
 \newpage
+\chapter{Previous Work}\label{chapter:previouswork}
+\onehalfspacing
+This project is a continuation from the previous semester. A summary of the work done previously is as follows -
+\begin{itemize}
+    \item Designed and implemented the frontend for the central server
+    \item Documented Python code written for the Raspberry Pi sub-server
+    \item Documented Arduino code written for the microcontroller
+    \item Ported sub-server from \verb|BaseHTTPServer| to Django server - This employed
+\end{itemize}
+
+\newpage
 \chapter{Architecture}\label{chapter:architecture}
 \onehalfspacing
 \begin{figure}[h]
@@ -278,6 +299,22 @@ Communication taking place between sub-server devices and the ESP devices follow
 \begin{itemize}
     \item Receive configuration file - The sub-server device acts as a client for this method, used by the central server to transmit a \verb|json| file to the sub-server using an \ac{http} POST message.
     \item Send logging data - The Raspberry Pi device sends the data log to the central server using \ac{http} POST message containing a log file at a fixed time interval. This enables the deletion of the files at sub-server end, freeing up valuable memory resources.
+\end{itemize}
+
+\newpage
+\chapter{Working Prototype}\label{chapter:workingprototype}
+\onehalfspacing
+The entire project stack will be demonstrated by a proof-of-concept prototype. The microcontroller functionality will be implemented in software similar to the central server for the purpose of the demonstration. The Raspberry Pi system used will be set up remotely and accessed using \ac{ssh}. It will run a Django server providing the following features -
+\begin{itemize}
+    \item Downstream port for the microcontroller to post data
+    \item Python script executed via a shell script setup as a cronjob to send the collected data to the central server
+    \item Upstream port for the central server to post a configuration file containing IP addresses of the clients under control of a Raspberry Pi sub-server
+    \item Python script executed via a shell script setup as a cronjob to send control commands to the microcontroller as directed by the central server
+\end{itemize}
+The central server will be setup as a separate Django server providing the following features -
+\begin{itemize}
+    \item Python script prompting the user for the IP address of and data to be sent to a microcontroller client, which will be formatted into a \ac{json} file and sent to the Raspberry Pi sub server
+    \item Downstream port to receive collected client data from the Raspberry Pi sub-server
 \end{itemize}
 
 \newpage
