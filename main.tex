@@ -208,6 +208,8 @@ Later a parallel system for monitoring and data collection was implemented by a 
 \pagebreak
 \section{\ac{bms} for phase II}
 The \ac{hvac} for Phase II of IIIT-Delhi campus is designed to take care (and advantage) of diversity of use. So instead of large \ac{ahu}s, we will have individual units in faculty rooms, labs, and other spaces. This would allow us to condition air of the spaces that are occupied and the system would be able to maintain desired temperature more closely. The disadvantage of this approach is higher capital cost and a larger \ac{io} points for \ac{bms} but the running cost will be saved.
+\par
+However, a significant cost saving would also be introduced by this approch due the use of ESP \ac{wifi} modules and leveraging the existing wireless network infrastructure of IIIT Delhi. The use of these modules for the network connection needs of the microcontroller devices provides us with a cost saving as there is no need for Ethernet cable runs to each of these numerous devices and the ESP modules provide a direct \ac{wifi} connection to the existing wireless routers. Also, it allows us greater flexibility of location for the microcontroller devices.
 
 \newpage
 \chapter{Problem Statement}\label{chapter:problemstatement}
@@ -245,7 +247,7 @@ This project is a continuation from the previous semester. A summary of the work
 \caption{Block diagram of the building management system project}
 \label{fig:arch}
 \end{figure}
-The \ac{bms}/ \ac{hvac} system, is structured in the manner described by figure \ref{fig:arch}. At the lowest level is the \ac{ahu}, which performs the actual cooling/heating functionality of the system. It is controlled by the microcontroller. The microcontroller monitors various system parameters and accordingly runs the \ac{ahu}. The microcontroller runs in a master-slave configuration wherein the master is an ESP8266 wireless module which is responsible for communication with further control levels. This system is in controlled by a Raspberry Pi sub-server unit, which is responsible for logging data and passing control instructions to the microcontroller/wifi module unit according to policies set by the central server. The highlighted sections in figure \ref{fig:arch} are the modules that were worked upon over the course of this project.
+The \ac{bms}/ \ac{hvac} system, is structured in the manner described by figure \ref{fig:arch}. At the lowest level is the \ac{ahu}, which performs the actual cooling/heating functionality of the system. It is controlled by the microcontroller. The microcontroller monitors various system parameters and accordingly runs the \ac{ahu}. The microcontroller runs in a master-slave configuration wherein the master is an ESP wireless module which is responsible for communication with further control levels. This system is in controlled by a Raspberry Pi sub-server unit, which is responsible for logging data and passing control instructions to the microcontroller/wifi module unit according to policies set by the central server. The highlighted sections in figure \ref{fig:arch} are the modules that were worked upon over the course of this project.
 
 \newpage
 \chapter{Design}\label{chapter:Design}
@@ -313,7 +315,7 @@ Communication taking place between sub-server devices and the ESP devices follow
 \includegraphics[width=10cm, height=20.2cm]{test}
 \centering
 \captionsetup{justification=centering}
-\caption{Flowchart of data logging functionality}
+\caption{Flowchart of data logging functionality provided by Raspberry Pi sub-server to microcontroller devices}
 \label{fig:flow}
 \end{figure}
 
