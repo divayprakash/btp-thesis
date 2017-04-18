@@ -309,6 +309,13 @@ Communication taking place between sub-server devices and the ESP devices follow
     \item Receive configuration file - The sub-server device acts as a client for this method, used by the central server to transmit a \verb|json| file to the sub-server using an \ac{http} POST message.
     \item Send logging data - The Raspberry Pi device sends the data log to the central server using \ac{http} POST message containing a log file at a fixed time interval. This enables the deletion of the files at sub-server end, freeing up valuable memory resources.
 \end{itemize}
+\begin{figure}[ht]
+\includegraphics[width=10cm, height=20.2cm]{test}
+\centering
+\captionsetup{justification=centering}
+\caption{Flowchart of data logging functionality}
+\label{fig:flow}
+\end{figure}
 
 \newpage
 \chapter{Working Prototype}\label{chapter:workingprototype}
